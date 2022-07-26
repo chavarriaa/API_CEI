@@ -11,9 +11,9 @@ router.post('/usuarios', async (req, res) => {
     let usuarios = new UsuariosModule(data);
 
     let result = await pool.request()
-        .input('userName',sql.VarChar,usuarios.userName) //req.body.UserName
-        .input('FirstName',sql.VarChar,usuarios.FirstName) //req.body.UserName
-        .input('LastName',sql.VarChar,usuarios.LastName) //req.body.UserName
+        .input('usuario',sql.VarChar,usuarios.usuario) //req.body.UserName
+        .input('contrasena',sql.VarChar,usuarios.contrasena) //req.body.UserName
+        .input('correo',sql.VarChar,usuarios.correo) //req.body.UserName
         .query(usuarios.querySave);
 
     if (result.rowsAffected <= 0){ throw "No existe datos con esos parámetros"};
@@ -54,6 +54,27 @@ router.get('/usuarios/:id',async(req,res)=>{
         res.status(300).json({error:`Hay clavo tio ${error}`})
     }
 
+})
+
+router.put('/usuarios/:id', async(req,res) =>{
+    try {
+        
+        let data = {...req.body,...req.params};
+        let usuarios = new PostModule(data);
+
+        let pool =  await sql.connect(config);
+        let response = await pool.request()
+            .input('id',sql.Int,usuarios.id)
+            .input('usuario',sql.VarChar,usuarios.usuario)
+            .input('contrasena',sql.VarChar,usuarios.contrasena)
+            .input('correo',sql.VarChar,usuarios.correo)
+            .query(posts.queryGetById);
+
+        res.status(200).json(response)
+    } catch (error) {
+        console.error(`Hay clavo tio ${error}`)
+        res.status(300).json({error:`Hay clavo tio ${error}`})
+    }
 })
 
 module.exports = router;

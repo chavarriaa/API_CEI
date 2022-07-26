@@ -12,7 +12,8 @@ app.use(cors())
 
 app.use('/1.0.0',require('./src/1.0.0/routes/post'))
 app.use('/1.0.0',require('./src/1.0.0/routes/Usuarios'))
-app.use('/1.0.0',require('./src/1.0.0/routes/hello'))
+//app.use('/1.0.0',require('./src/1.0.0/routes/hello'))
+app.use('/1.0.0',require('./src/1.0.0/routes/Postulaciones'))
 
 const server = app.listen(app.get('port'),(req,res)=>{
     console.log(`Server started at http://localhost:${app.get('port')}`)

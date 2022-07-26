@@ -34,7 +34,7 @@ router.get('/post/:id',async(req,res)=>{
     }
 })
 
-router.post('/post',async(req,res)=>{
+router.post('/post',async(req,res)=>{ //agregar
     try {
         let data = {...req.body,...req.params};
         let posts = new PostModule(data);
@@ -56,7 +56,7 @@ router.post('/post',async(req,res)=>{
     }
 })
 
-router.put('/post/:id',async(req,res)=>{
+router.put('/post/:id',async(req,res)=>{ //modificar
     try {
         let data = {...req.body,...req.params};
         let posts = new PostModule(data);
@@ -78,7 +78,7 @@ router.put('/post/:id',async(req,res)=>{
         res.status(300).json({error:`Hay clavo tio ${e}`})
     }
 })
-router.delete('/post/:id',async(req,res)=>{
+router.delete('/post/:id',async(req,res)=>{ //eliminar
     try {
         let data = {...req.body,...req.params};
         let posts = new PostModule(data);
