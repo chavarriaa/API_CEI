@@ -2,12 +2,12 @@ module.exports = class Usuarios {
     constructor(data){
         this.db = 'Usuarios'
         this.id =data.id;
-        this.userName = data.userName;
-        this.FirstName = data.FirstName;
-        this.LastName = data.LastName;
+        this.userName = data.usuario;
+        this.FirstName = data.contrasena;
+        this.LastName = data.correo;
 
     this.queryGet = `SELECT * FROM ${this.db}`;
     this.queryGetByID = `SELECT * FROM ${this.db} WHERE id = @id`;
-    this.querySave = `INSERT INTO Usuarios (userName, FirstName, Lastname) VALUES (@userName, @FirstName, @LastName)`;
+    this.querySave = `INSERT INTO Usuarios (usuario, contrasena, correo) VALUES (@usuario, @contrasena, @correo)`;
     }
 }
