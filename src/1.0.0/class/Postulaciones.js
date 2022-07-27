@@ -12,7 +12,7 @@ module.export = class Postulaciones {
     this.sede = data.sede;
     this.equipo_trabajo = data.equipo_trabajo;
 
-    this.gueryGet = `select * from ${this.db}`;
+    this.gueryGet = `SELECT * FROM ${this.db}`;
 
     this.querySave = 
     `INSERT INTO Postulaciones (representante, correo, cuenta, celular,
@@ -21,7 +21,7 @@ module.export = class Postulaciones {
     @sede, @equipo_trabajo)`;
 
     this.queryGetById = 
-    `select id, representante, correo, cuenta, celular, 
+    `SELECT id, representante, correo, cuenta, celular, 
     genero, tipo, descripcion, sede, equipo_trabajo WHERE id = @id`;
 
     this.queryDelete = `DELETE FROM ${this.db} WHERE id=@id`;
@@ -30,6 +30,6 @@ module.export = class Postulaciones {
     representante = @representante, correo = @correo,
     cuenta = @cuenta, celular = @celular, genero = @genero
     tipo = @tipo, descripcion = @descripcion, sede = @sede, 
-    equipo_trabajo = @equipo_trabajo`
+    equipo_trabajo = @equipo_trabajo WHERE id = @id`
   }
 };
