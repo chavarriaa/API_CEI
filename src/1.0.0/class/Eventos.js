@@ -11,10 +11,10 @@ module.exports = class Eventos{
         this.gueryGet = `SELECT * FROM ${this.db}`;
 
         this.querySave = 
-        `INSERT INTO Eventos (fecha, title, usuario, fechaCreado) VALUES 
+        `INSERT INTO ${this.db} (fecha, title, usuario, fechaCreado) VALUES 
         (@fecha, @title, @usuario, cast (@fechaCreado as datetime))`;
     
-        this.queryGetById = `SELECT id, fecha, title, usuario, fechaCreado WHERE id = @id`;
+        this.queryGetById = `SELECT id, fecha, title, usuario, fechaCreado FROM ${this.db} WHERE id = @id`;
     
         this.queryDelete = `DELETE FROM ${this.db} WHERE id=@id`;
     

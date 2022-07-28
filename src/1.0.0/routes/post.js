@@ -60,7 +60,6 @@ router.put('/post/:id',async(req,res)=>{ //modificar
     try {
         let data = {...req.body,...req.params};
         let posts = new PostModule(data);
-
         let pool =  await sql.connect(config);
         let response = await pool.request()
             .input('id',sql.Int,posts.id)
@@ -72,7 +71,7 @@ router.put('/post/:id',async(req,res)=>{ //modificar
             .input('fechaCreado',sql.DateTime,posts.fechaCreado)
             .query(posts.queryGetById);
 
-        res.status(200).json(response)
+        res.status(200).json(response.recordsets,{message: "Modificado correctamente"})
     } catch (e) {
         console.error(`Hay clavo tio ${e}`)
         res.status(300).json({error:`Hay clavo tio ${e}`})
@@ -87,7 +86,7 @@ router.delete('/post/:id',async(req,res)=>{ //eliminar
             .input('id',sql.Int,posts.id)
             .query(posts.queryDelete);
        
-        res.status(200).json({message:"Datos han sido Eliminados"})
+        res.status(200).json(response,{message:"Datos han sido Eliminados"})
     } catch (e) {
         console.error(`Hay clavo tio ${e}`)
         res.status(300).json({error:`Hay clavo tio ${e}`})

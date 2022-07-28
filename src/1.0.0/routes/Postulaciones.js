@@ -13,8 +13,8 @@ router.get('/postulaciones',async(req,res)=>{
         let response = await pool.request().query(postulacion.queryGet);
         if (response.rowsAffected <= 0){ throw "No existe datos con esos parámetros"};
         res.status(200).json(response.recordsets)
-    } catch (e) {
-        console.error(`Hay clavo tio ${e}`)
+    } catch (error) {
+        console.error(`Hay clavo tio ${error}`)
         res.status(300).json({error:`Hay clavo tio ${e}`})
     }
 })
@@ -29,9 +29,9 @@ router.get('/postulaciones/:id',async(req,res)=>{
             .query(postulacion.queryGetById);
         if (response.rowsAffected <= 0){ throw "No existe datos con esos parámetros"};
         res.status(200).json(response.recordsets)
-    } catch (e) {
-        console.error(`Hay clavo tio ${e}`)
-        res.status(300).json({error:`Hay clavo tio ${e}`})
+    } catch (error) {
+        console.error(`Hay clavo tio ${error}`)
+        res.status(300).json({error:`Hay clavo tio ${error}`})
     }
 })
 
@@ -54,9 +54,9 @@ router.post('/postulaciones',async(req,res)=>{ //agregar
             .query(postulacion.querySave);
         if (response.rowsAffected <= 0){ throw "No existe datos con esos parámetros"};
         res.status(200).json(response.recordsets)
-    } catch (e) {
-        console.error(`Hay clavo tio ${e}`)
-        res.status(300).json({error:`Hay clavo tio ${e}`})
+    } catch (error) {
+        console.error(`Hay clavo tio ${error}`)
+        res.status(300).json({error:`Hay clavo tio ${error}`})
     }
 })
 
@@ -64,7 +64,6 @@ router.put('/postulaciones/:id',async(req,res)=>{ //modificar
     try {
         let data = {...req.body,...req.params};
         let postulacion = new PostulacionesModule(data);
-
         let pool =  await sql.connect(config);
         let response = await pool.request()
             .input('id',sql.Int, postulacion.id)
@@ -80,24 +79,24 @@ router.put('/postulaciones/:id',async(req,res)=>{ //modificar
             .query(postulacion.queryGetById);
             res.status(200).json({message:"Modificado con exito"})
         res.status(200).json(response)
-    } catch (e) {
-        console.error(`Hay clavo tio ${e}`)
-        res.status(300).json({error:`Hay clavo tio ${e}`})
+    } catch (error) {
+        console.error(`Hay clavo tio ${error}`)
+        res.status(300).json({error:`Hay clavo tio ${error}`})
     }
 })
 router.delete('/postulaciones/:id',async(req,res)=>{ //eliminar
     try {
         let data = {...req.body,...req.params};
-        let posts = new PostModule(data);
+        let postulacion = new PostModule(data);
         let pool =  await sql.connect(config);
         let response = await pool.request()
             .input('id',sql.Int,postulacion.id)
-            .query(posts.queryDelete);
+            .query(postulacion.queryDelete);
        
-        res.status(200).json({message:"Datos han sido Eliminados"})
-    } catch (e) {
-        console.error(`Hay clavo tio ${e}`)
-        res.status(300).json({error:`Hay clavo tio ${e}`})
+        res.status(200).json(response,{message:"Datos han sido Eliminados"})
+    } catch (error) {
+        console.error(`Hay clavo tio ${error}`)
+        res.status(300).json({error:`Hay clavo tio ${error}`})
     }
 })
 

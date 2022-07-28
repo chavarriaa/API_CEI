@@ -15,14 +15,14 @@ module.export = class Postulaciones {
     this.gueryGet = `SELECT * FROM ${this.db}`;
 
     this.querySave = 
-    `INSERT INTO Postulaciones (representante, correo, cuenta, celular,
+    `INSERT INTO ${this.db} (representante, correo, cuenta, celular,
     genero, tipo, descripcion, sede, equipo_trabajo) VALUES 
     (@representante, @correo, @cuenta, @celular, @genero, @tipo, @descripcion, 
     @sede, @equipo_trabajo)`;
 
     this.queryGetById = 
     `SELECT id, representante, correo, cuenta, celular, 
-    genero, tipo, descripcion, sede, equipo_trabajo WHERE id = @id`;
+    genero, tipo, descripcion, sede, equipo_trabajo FROM ${this.db} WHERE id = @id`;
 
     this.queryDelete = `DELETE FROM ${this.db} WHERE id=@id`;
 
