@@ -86,7 +86,7 @@ router.delete('/usuarios/:id',async(req,res)=>{ //eliminar
             .input('id',sql.Int,usuarios.id)
             .query(usuarios.queryDelete);
        
-        res.status(200).json(response,{message:"Datos han sido Eliminados"})
+        res.status(200).json({message:"Datos han sido Eliminados"})
     } catch (error) {
         console.error(`Hay clavo tio ${error}`)
         res.status(300).json({error:`Hay clavo tio ${error}`})
