@@ -1,5 +1,3 @@
-
-
 module.exports = class Post{
     constructor(data,filter){
         this.db ='Post';
@@ -7,44 +5,46 @@ module.exports = class Post{
         this.tipo= data.tipo || '';
         this.titulo= data.titulo || '';
         this.cuerpo= data.cuerpo || '';
-        this.imagenTitulo= data.imagenTitulo || '';
+        this.imagenEncabezado= data.imagenEncabezado || '';
         this.usuarioCreador= data.usuarioCreador || '';
         this.fechaCreado= data.fechaCreado || '';
 
-        
         this.queryGetFirst10=`
         SELECT TOP 10
             id
             ,tipo
             ,titulo
             ,cuerpo
-            ,imagenTitulo
+            ,imagenEncabezado
             ,usuarioCreador
             ,fechaCreado
             FROM Post
             ORDER BY fechaCreado;`
 
         this.queryGetById=` SELECT 
-            id
+             id
             ,tipo
             ,titulo
             ,cuerpo
-            ,imagenTitulo
+            ,imagenEncabezado
             ,usuarioCreador
             ,fechaCreado
             FROM Post
-            WHER id=@id;`
+            WHERE id=@id
+            ORDER BY fechaCreado;`
         
-        this.queryInsert=`INSERT INTO ${this.db} (tipo ,titulo,cuerpo,usuarioCreador,fechaCreado) VALUES (@tipo,@titulo,@cuerpo,@usuarioCreador,cast (@fechaCreado as datetime));`
+        this.queryInsert=`INSERT INTO ${this.db} 
+        (tipo ,titulo,cuerpo,imagenEncabezado,usuarioCreador,fechaCreado) 
+        VALUES 
+        (@tipo,@titulo,@cuerpo,@imagenEncabezado,@usuarioCreador,GETDATE());`
+
         this.queryUpdate=`UPDATE ${this.db} SET 
             titulo=@titulo,
             cuerpo=@cuerpo,
-            imagenTitulo=@imagenTitulo,
-            usuarioCreador=@usuarioCreador,
-            fechaCreado=@fechaCreado
+            imagenEncabezado=@imagenEncabezado,
+            usuarioCreador=@usuarioCreador
             WHERE id=@id;`
-        this.queryDelete = `DELETE FROM ${this.db} WHERE id=@id`
-        
+        this.queryDelete = `DELETE FROM ${this.db} WHERE id=@id`   
     }
   
   }

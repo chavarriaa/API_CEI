@@ -2,18 +2,19 @@ const express= require('express');
 const router= express.Router();
 const config= require('../lib/config');
 const sql = require('mssql');
-const UsuariosModule = require('../class/usuarios')
+const UsuarioModule = require('../class/Usuario')
 
-router.post('/usuarios', async (req, res) => {//agregar
+router.post('/usuario', async (req, res) => {//agregar
    try {
     let data = {...req.body,...req.params}
     let pool = await sql.connect(config);
-    let usuarios = new UsuariosModule(data);
+    let usuario = new UsuarioModule(data);
     let result = await pool.request()
-        .input('usuario',sql.VarChar,usuarios.usuario) //req.body.UserName
-        .input('contrasena',sql.VarChar,usuarios.contrasena) 
-        .input('correo',sql.VarChar,usuarios.correo) 
-        .query(usuarios.querySave);
+        .input('usuario',sql.VarChar,usuario.usuario) 
+        .input('nombre',sql.VarChar,usuario.nombre) 
+        .input('contrasena',sql.VarChar,usuario.contrasena) 
+        .input('correo',sql.VarChar,usuario.correo) 
+        .query(usuario.querySave);
 
     if (result.rowsAffected <= 0){ throw "No existe datos con esos parámetros"};
     res.status(200).json({message:"Usuario creado correctamente"});
@@ -21,15 +22,14 @@ router.post('/usuarios', async (req, res) => {//agregar
         console.error(error)
         res.status(300).json({error:`Hay clavo tio ${error}`})
    }
-    
 })
 
 
-router.get('/usuarios',async(req,res)=>{// get all
+router.get('/usuario',async(req,res)=>{// get all
     try {
         let data = {...req.body,...req.params}
         let pool= await sql.connect(config);
-        let usuario = new UsuariosModule(data);
+        let usuario = new UsuarioModule(data);
         let response = await pool.request().query(usuario.queryGet)
         if (response.rowsAffected <= 0){ throw "No existe datos con esos parámetros"}
         res.status(200).json(response.recordset);
@@ -40,11 +40,11 @@ router.get('/usuarios',async(req,res)=>{// get all
 
 })
 
-router.get('/usuarios/:id',async(req,res)=>{//get por id
+router.get('/usuario/:id',async(req,res)=>{//get por id
     try {
         let data = {...req.body,...req.params}
         let pool= await sql.connect(config);
-        let usuario = new UsuariosModule(data);
+        let usuario = new UsuarioModule(data);
         let response = await pool.request()
         .input('id',sql.Int,req.params.id)
         .query(usuario.queryGetByID)
@@ -57,34 +57,36 @@ router.get('/usuarios/:id',async(req,res)=>{//get por id
 
 })
 
-router.put('/usuarios/:id', async(req,res) =>{//modificar por id
+router.put('/usuario/:id', async(req,res) =>{//modificar por id
     try {
         
         let data = {...req.body,...req.params};
-        let usuarios = new UsuariosModule(data);
+        let usuario = new UsuarioModule(data);
         let pool =  await sql.connect(config);
-        let response = await pool.request()
-            .input('id',sql.Int,usuarios.id)
-            .input('usuario',sql.VarChar,usuarios.usuario)
-            .input('contrasena',sql.VarChar,usuarios.contrasena)
-            .input('correo',sql.VarChar,usuarios.correo)
-            .query(usuarios.queryUpdate);
 
-        res.status(200).json(response.recordset,{message:"Modificado exitosamente"})
+        let response = await pool.request()
+            .input('id',sql.Int,usuario.id)
+            .input('usuario',sql.VarChar,usuario.usuario)
+            .input('nombre',sql.VarChar,usuario.nombre) 
+            .input('contrasena',sql.VarChar,usuario.contrasena)
+            .input('correo',sql.VarChar,usuario.correo)
+            .query(data.contrasena? usuario.queryUpdateWithPassword:usuario.queryUpdate);
+
+        res.status(200).json({data:data,message:"Modificado exitosamente"})
     } catch (error) {
         console.error(`Hay clavo tio ${error}`)
         res.status(300).json({error:`Hay clavo tio ${error}`})
     }
 })
 
-router.delete('/usuarios/:id',async(req,res)=>{ //eliminar
+router.delete('/usuario/:id',async(req,res)=>{ //eliminar
     try {
         let data = {...req.body,...req.params};
-        let usuarios = new UsuariosModule(data);
+        let usuario = new UsuarioModule(data);
         let pool =  await sql.connect(config);
         let response = await pool.request()
-            .input('id',sql.Int,usuarios.id)
-            .query(usuarios.queryDelete);
+            .input('id',sql.Int,usuario.id)
+            .query(usuario.queryDelete);
        
         res.status(200).json({message:"Datos han sido Eliminados"})
     } catch (error) {

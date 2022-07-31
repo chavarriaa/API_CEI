@@ -54,7 +54,7 @@ router.post("/eventos", async (req, res) => {
     if (response.rowsAffected <= 0) {
       throw "No existe datos con esos parámetros";
     }
-    res.status(200).json({message: "Agregado correctamente"});
+    res.status(200).json({message: "Agregado correctamente",data:data});
   } catch (error) {
     console.error(`Hay clavo tio ${error}`);
     res.status(300).json({ error: `Hay clavo tio ${error}` });
@@ -77,6 +77,7 @@ router.put("/eventos/:id", async (req, res) => { //modificar
       if (response.rowsAffected <= 0) {
         throw "No existe datos con esos parámetros";
       }
+    res.status(200).json({message: "ok",data:data});
   } catch (error) {
     console.error(`Hay clavo tio ${error}`);
     res.status(300).json({ error: `Hay clavo tio ${error}` });

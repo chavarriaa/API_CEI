@@ -1,6 +1,6 @@
-module.exports = class Eventos{
+module.exports = class Evento{
     constructor(data){
-        this.db = 'Eventos';
+        this.db = 'Evento';
         this.id = data.id;
         this.fecha = data.fecha;
         this.title = data.title;
