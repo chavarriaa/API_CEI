@@ -68,3 +68,11 @@ CREATE TABLE Estado(
 	id int IDENTITY(1,1) NOT NULL,
 	descripcion varchar(100),
 );
+
+CREATE TABLE Contactanos(
+	id int IDENTITY(1,1) NOT NULL,
+	comentario varchar(300),
+	nombre varchar(50),
+	email varchar(70),
+	telefono varchar(20),
+);
