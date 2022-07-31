@@ -15,8 +15,8 @@ router.get("/eventos", async (req, res) => { //get all
     }
     res.status(200).json(response.recordsets);
   } catch (error) {
-    console.error(`Hay clavo tio ${e}`);
-    res.status(300).json({ error: `Hay clavo tio ${e}` });
+    console.error(`Hay clavo tio ${error}`);
+    res.status(300).json({ error: `Hay clavo tio ${error}` });
   }
 });
 
@@ -26,7 +26,7 @@ router.get("/eventos/:id", async (req, res) => {// get by id
     let eventos = new EventosModule(data);
     let pool = await sql.connect(config) 
     let response = await pool.request()
-      .input("id", sql.Int, posts.id)
+      .input("id", sql.Int, eventos.id)
       .query(eventos.queryGetById);
     if (response.rowsAffected <= 0) {
       throw "No existe datos con esos parámetros";
@@ -47,14 +47,14 @@ router.post("/eventos", async (req, res) => {
     let response = await pool.request()
       .input("fecha", sql.Date, eventos.fecha)
       .input("title", sql.VarChar, eventos.title)
-      .input("descripcion", sql.VarChar, eventos.descripcion)
-      .input("usuario", sql.VarChar, eventos.usuario)
+      .input("descripcion", sql.VarChar(sql.MAX), eventos.descripcion)
+      .input("usuario", sql.Int, eventos.usuario)
       .input("fechaCreado", sql.VarChar, eventos.fechaCreado)
       .query(eventos.querySave);
     if (response.rowsAffected <= 0) {
       throw "No existe datos con esos parámetros";
     }
-    res.status(200).json(response.recordsets, {message: "Agregado correctamente"});
+    res.status(200).json({message: "Agregado correctamente"});
   } catch (error) {
     console.error(`Hay clavo tio ${error}`);
     res.status(300).json({ error: `Hay clavo tio ${error}` });
@@ -70,8 +70,8 @@ router.put("/eventos/:id", async (req, res) => { //modificar
       .input('id',sql.Int,eventos.id)
       .input("fecha", sql.Date, eventos.fecha)
       .input("title", sql.VarChar, eventos.title)
-      .input("descripcion", sql.VarChar, eventos.descripcion)
-      .input("usuario", sql.VarChar, eventos.usuario)
+      .input("descripcion", sql.VarChar(sql.MAX), eventos.descripcion)
+      .input("usuario", sql.Int,eventos.usuario)
       .input("fechaCreado", sql.VarChar, eventos.fechaCreado)
       .query(eventos.queryUpdate);
       if (response.rowsAffected <= 0) {
