@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "env-cmd --file ./.env.development nodemon index.js",
     "prod": "env-cmd --file ./.env.production nodemon index.js",
-    "start": "node ./src/index.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
